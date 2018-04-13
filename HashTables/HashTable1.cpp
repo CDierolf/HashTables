@@ -134,7 +134,6 @@ public:
 /****** BEGIN MAIN *******/
 int main()
 {
-
 	HashItem *pHI;
 
 	int selection, size, data;
@@ -192,7 +191,6 @@ int main()
 		{
 			exit(0);
 		}
-
 	} while (selection != 0);
 	return 0;
 }

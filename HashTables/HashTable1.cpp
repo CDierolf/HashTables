@@ -1,9 +1,14 @@
+/* This program demonstrates the use of a hash table with the following
+operations: insert, delete, and find.
+Accepts and hashes a string key.
+Christopher K. Dierolf
+4/13/2018 */
 #include <iostream>
 #include <string>
 #include <vector>
 
 using namespace std;
-
+/****** BEGIN CLASS HASHITEM *******/
 class HashItem {
 public: 
 	string key;
@@ -11,7 +16,9 @@ public:
 	HashItem(string k, int d) : key(k), data(d)
 	{ }
 };
+/****** END CLASS HASHITEM *******/
 
+/****** BEGIN CLASS HASHTABLE *******/
 class HashTable
 {
 private:
@@ -19,6 +26,7 @@ private:
 	vector<HashItem*> vectHash;
 	int vectSize;
 public:
+	//ctor
 	HashTable(int size) : vectHash(size)
 	{
 		vectSize = size;
@@ -67,18 +75,19 @@ public:
 	// Method to locate an item based on its key
 	HashItem *find(string key)
 	{
-		int hashedKey = hashFunction(key);
+		int hashedKey = hashFunction(key);			// Hash the key passed into the method.
 
 		while (vectHash[hashedKey] != NULL)
 		{
-			if (vectHash[hashedKey]->key == key)
+			if (vectHash[hashedKey]->key == key)	// Compare the hashed key in the table with the hashed key passed into the method.
 			{
-				return vectHash[hashedKey];
+				cout << "Item found...\n";
+				return vectHash[hashedKey];			// If found.
 			}
 			++hashedKey;
 			hashedKey %= vectSize;
 		}
-		return NULL;
+		return NULL;								// Item not found
 	}
 
 	// Method to display the table
@@ -99,17 +108,17 @@ public:
 		}
 		cout << endl;
 	}
-
+	// Method to remove an item from the hash table.
 	HashItem *removeItem(string key)
 	{
-		int hashedKey = hashFunction(key);
+		int hashedKey = hashFunction(key);		// Hash the key parameter.
 
-		while (vectHash[hashedKey] != NULL)
+		while (vectHash[hashedKey] != NULL)		// Loop through...
 		{
-			if (vectHash[hashedKey]->key == key)
+			if (vectHash[hashedKey]->key == key)	// If the hashed key in the table equals the hashed key passed into this method...
 			{
-				HashItem *pTemp = vectHash[hashedKey];
-				vectHash[hashedKey] = pNonItem;			// delete the item
+				HashItem *pTemp = vectHash[hashedKey];	// Assign a temporary item to hold the slot
+				vectHash[hashedKey] = pNonItem;			// delete the item in the slot
 				cout << "Item deleted...\n";
 				return pTemp;
 			}
@@ -120,7 +129,9 @@ public:
 		return NULL;
 	}
 };
+/****** END CLASS HASHTABLE *******/
 
+/****** BEGIN MAIN *******/
 int main()
 {
 
@@ -134,7 +145,7 @@ int main()
 	cout << "Enter the size of the hash table that you would like to create: ";
 	cin >> size;
 	HashTable ht(size);
-
+	// Display the menu
 	do {
 		cout << "Select an option from the following menu: \n";
 		cout << "\t1. Insert a new item.\n";
@@ -144,13 +155,13 @@ int main()
 		cout << "\t0. Exit.\n";
 		cout << "\nEnter a selection (0-4): ";
 		cin >> selection;
-		while (selection < 0 || selection > 4)
+		while (selection < 0 || selection > 4) // Validate the selection
 		{
 			cout << "\nInvalid selection\n";
 			cout << "Enter a valid menu option (0-4): ";
 			cin >> selection;
 		}
-
+		// Handle the selection.
 		if (selection == 1)
 		{
 			cout << "Enter the key as a string: ";
@@ -185,3 +196,4 @@ int main()
 	} while (selection != 0);
 	return 0;
 }
+/****** END MAIN *******/
